@@ -13,7 +13,7 @@
 | M3 字段保形 | 运行样例并复核证据 | `/api/fields/normalize` / `/fields` | `app/modules/m3_fields/core.py` `app/modules/m3_fields/service.py` | `tests/test_m3_fields.py` |
 | M4 内容归一 | 运行样例并复核证据 | `/api/content/normalize` / `/content` | `app/modules/m4_content/core.py` `app/modules/m4_content/service.py` | `tests/test_m4_content.py` |
 | M5 索引对账 | 运行样例并复核证据 | `/api/reconcile` / `/reconcile` | `app/modules/m5_reconcile/core.py` `app/modules/m5_reconcile/service.py` | `tests/test_m5_reconcile.py` |
-| M6 批次导出 | 运行样例并复核证据 | `/api/export/evidence.csv` / `/runs` | `app/modules/m6_runs/core.py` `app/modules/m6_runs/service.py` | `tests/test_m6_runs.py` |
+| M6 批次导出 | 入库、按批撤回、清除续跑与审计复核 | `/api/batches` `/api/batches/{id}/revoke` `/api/batches/{id}/purge` `/api/batches/{id}/audit` `/api/export/evidence.csv` / `/runs` `/batches/{id}` | `app/modules/m6_runs/core.py` `app/modules/m6_runs/service.py` `app/store.py` | `tests/test_m6_runs.py` `tests/test_m6_batches.py` |
 
         ## 陷阱登记
 
@@ -35,6 +35,8 @@
         - 输入记录数 = 有效记录数 + 隔离记录数 + 空记录数。
         - 核心数值或事件数在转换、判定和导出之间保持守恒。
         - 同一输入摘要重跑复用原运行编号，不增加结果行。
+        - 批次撤回不删行：计数、行号与处置理由留账；档号与原始内容经清除分块物理擦除，
+          清除台账按记录主键记账，重试不重复计数；内容墓碑阻断旧采信请求重放复活。
 
         ## 已知不覆盖
 
